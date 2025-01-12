@@ -1,0 +1,6 @@
+FROM ubuntu:22.04
+WORKDIR /SVC1
+COPY . /SVC1
+RUN pip3 install -r requirements.txt
+EXPOSE 8000
+ENTRYPOINT [ "fastapi", "dev", "main.py" ]

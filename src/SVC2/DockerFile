@@ -1,0 +1,7 @@
+FROM ubuntu:22.04
+WORKDIR /SVC2
+COPY . /SVC2
+RUN pip3 install -r requirements.txt
+EXPOSE 9000
+# TODO: Add entry point script here later
+ENTRYPOINT []

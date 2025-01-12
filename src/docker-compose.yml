@@ -1,0 +1,49 @@
+version: "3.9"
+services:
+  frontend:
+    build: ./frontend
+    # Example:
+    # The Dockerfile in ./frontend should install dependencies, build, and
+    # run a local server (e.g., using `npm run start`).
+    # Make sure the frontend is configured to connect to SVC1 at its
+    # service URL.
+    ports:
+    - "3000:3000"
+    depends_on:
+    - svc1
+    # environment:
+    # REACT_APP_API_URL: http://svc1:8000 # Example if using React
+  svc1:
+    build: ./svc1
+    ports:
+    - "8000:8000"
+    depends_on:
+    - db
+  svc2:
+    build: ./svc2
+    # Example:
+    # The Dockerfile in ./svc2 can be any language.
+    # Make sure it can receive notifications from svc1.
+    # If using HTTP notifications from SVC1 to SVC2, ensure SVC2 listens
+    # on a port.
+    ports:
+    - "9000:9000"
+    # environment:
+    # # Any environment variables needed.
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'phennx'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'data'
+      MYSQL_ROOT_PASSWORD: 'data'
+    ports:
+      # <Port exposed> : <MySQL Port running inside container>
+      - '3306:3306'
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+      # Where our data will be persisted
+    volumes:
+      - my-db:/var/lib/mysql
