@@ -13,7 +13,16 @@ class SqlRepository:
             print(e)
         self.connection = connection
 
-    def insert(self, insertQuery):
+    def insert(self, insertStatement):
         cursor = self.connection.cursor()
-        cursor.execute(insertQuery)
+        cursor.execute(insertStatement)
         self.connection.commit()
+
+    def checkTable(self, table: str) -> bool:
+        cursor = self.connection.cursor()
+        tableCursor = cursor.execute('SHOW TABLES')
+        return table in tableCursor
+    
+    def createTable(self, statement: str) -> void:
+        cursor = self.connection.cursor()
+        cursor.execute(statement)
