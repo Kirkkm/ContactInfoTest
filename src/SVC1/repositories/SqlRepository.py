@@ -40,7 +40,10 @@ class SqlRepository:
         """
         table_cursor = self.connection.cursor()
         table_cursor.execute("SHOW TABLES")
-        return table in table_cursor  # type: ignore
+        for t in table_cursor:  # type: ignore
+            if table in t:
+                return True
+        return False
 
     def create_table(self, statement: str) -> None:
         """Creates a table in the MySql database
