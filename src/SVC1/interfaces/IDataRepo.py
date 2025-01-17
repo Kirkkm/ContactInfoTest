@@ -1,14 +1,16 @@
 from abc import ABC, abstractmethod
 import configparser
 from src.SVC1.repositories.SqlRepository import SqlRepository
+from pydantic import BaseModel
 
 
-class IDataRepo[T](ABC):
+class IDataRepo[T: BaseModel](ABC):
     """Base class for data repositories"""
 
     def __init__(self, table: str, create_table_statement: str):
 
         self.create_table_statement = create_table_statement
+        self.table = table
         self.db_connect()
 
         # checks if the table already exist, if not we create it
@@ -68,13 +70,24 @@ class IDataRepo[T](ABC):
             T: data from the table
         """
 
-    @abstractmethod
     def insert(self, data: T) -> None:
         """Inserts data into the table
 
         Args:
             data (T): data to be inserted
         """
+        shape = data.model_dump()
+        columns = []
+        values = []
+        for key, value in shape.items():
+            columns.append(key)
+            values.append(value)
+
+        insert_statement = (
+            f"INSERT INTO ContactInfo {tuple(columns)} VALUES {tuple(values)}"
+        )
+
+        self.sql_repo.insert(insert_statement)
 
     @abstractmethod
     def update(self, unique_id: str, data: T) -> None:
