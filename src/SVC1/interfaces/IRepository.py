@@ -8,7 +8,6 @@ class IRepository[T: BaseModel](ABC):
     @abstractmethod
     def db_connect(self) -> None:
         """Sets up the connection to the database"""
-        pass
 
     @abstractmethod
     def table_exist(self, table: str) -> bool:
@@ -20,12 +19,10 @@ class IRepository[T: BaseModel](ABC):
         Returns:
             bool: returns if the table is present or not
         """
-        pass
 
     @abstractmethod
     def create_table(self) -> None:
         """Creates a table"""
-        pass
 
     @abstractmethod
     def delete(self, unique_id: str) -> None:
@@ -34,7 +31,6 @@ class IRepository[T: BaseModel](ABC):
         Args:
             unique_id (str): identifier used to find and delete the row
         """
-        pass
 
     @abstractmethod
     def get(self, unique_id: str) -> T:
@@ -46,7 +42,6 @@ class IRepository[T: BaseModel](ABC):
         Returns:
             T: data from the table
         """
-        pass
 
     @abstractmethod
     def insert(self, data: T) -> None:
@@ -55,7 +50,6 @@ class IRepository[T: BaseModel](ABC):
         Args:
             data (T): data to be inserted
         """
-        pass
 
     @abstractmethod
     def update(self, unique_id: str, data: T) -> None:
@@ -65,4 +59,3 @@ class IRepository[T: BaseModel](ABC):
             unique_id (str): identifier used to find the data
             data (T): data used to update the record
         """
-        pass
