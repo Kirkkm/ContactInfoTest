@@ -19,5 +19,13 @@ app.add_middleware(
 
 @app.post("/ContactUs")
 def create_contact(contact: ContactInfo) -> ContactInfo:
+    """Endpoint to create a Contact's Information
+
+    Args:
+        contact (ContactInfo): Data to be saved
+
+    Returns:
+        ContactInfo: a 200 with the data being saved in response
+    """
     contact_info_repo.insert(contact)
     return contact
