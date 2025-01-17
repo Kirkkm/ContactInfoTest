@@ -30,10 +30,8 @@ class DataRepoBase[T: BaseModel](IRepository):
         password = config.get("Database", "password")
         db = config.get("Database", "db")
 
-        hostname = f"{host}:{port}"
-
         # Sql connection
-        self.sql_repo = SqlRepository(hostname, username, password, db)
+        self.sql_repo = SqlRepository(host, port, username, password, db)
 
     def table_exist(self, table: str) -> bool:
         return self.sql_repo.table_exist(table)

@@ -5,16 +5,18 @@ from mysql.connector import Error
 class SqlRepository:
     """A repository to interact with a MySql database"""
 
-    def __init__(self, hostname: str, username: str, password: str, db: str):
+    def __init__(self, hostname: str, port: str, username: str, password: str, db: str):
+        connection = None
         try:
             connection = mysql.connector.connect(
-                host=hostname, user=username, password=password, database=db
+                host=hostname, port=port, user=username, password=password, database=db
             )
             print(f"successfully connected to {hostname}")
         except Error as e:
             print("encountered error")
             print("=================")
             print(e)
+            raise e
         self.connection = connection
 
     def insert(self, insert_statement: str) -> None:
