@@ -25,9 +25,3 @@ class ContactInfoRepo[ContactInfo](IDataRepo):
         """
 
         super().__init__(table, create_table_statement)
-
-        self.db_connect()
-
-        # checks if the table already exist, if not we create it
-        if self.table_exist(table) is False:
-            self.create_table()
