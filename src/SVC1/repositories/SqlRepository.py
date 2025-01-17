@@ -3,6 +3,8 @@ from mysql.connector import Error
 
 
 class SqlRepository:
+    """A repository to interact with a MySql database"""
+
     def __init__(self, hostname: str, username: str, password: str, db: str):
         try:
             connection = mysql.connector.connect(
@@ -15,16 +17,34 @@ class SqlRepository:
             print(e)
         self.connection = connection
 
-    def insert(self, insertStatement: str) -> None:
+    def insert(self, insert_statement: str) -> None:
+        """Inserts data into a MySql database
+
+        Args:
+            insert_statement (str): Insert statement to be executed
+        """
         cursor = self.connection.cursor()
-        cursor.execute(insertStatement)
+        cursor.execute(insert_statement)
         self.connection.commit()
 
     def table_exist(self, table: str) -> bool:
+        """Checks if a tables exists in the MySql database
+
+        Args:
+            table (str): Name of the table to check
+
+        Returns:
+            bool: Returns if a table exists or not
+        """
         table_cursor = self.connection.cursor()
         table_cursor.execute("SHOW TABLES")
-        return table in table_cursor
+        return table in table_cursor  # type: ignore
 
     def create_table(self, statement: str) -> None:
+        """Creates a table in the MySql database
+
+        Args:
+            statement (str): MySql state to run to create the new table
+        """
         cursor = self.connection.cursor()
         cursor.execute(statement)
