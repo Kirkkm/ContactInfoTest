@@ -1,10 +1,10 @@
-from abc import ABC, abstractmethod
 import configparser
-from src.SVC1.repositories.SqlRepository import SqlRepository
 from pydantic import BaseModel
+from src.SVC1.interfaces.IRepository import IRepository
+from src.SVC1.repositories.SqlRepository import SqlRepository
 
 
-class IDataRepo[T: BaseModel](ABC):
+class DataRepoBase[T: BaseModel](IRepository):
     """Base class for data repositories"""
 
     def __init__(self, table: str, create_table_statement: str):
@@ -36,46 +36,18 @@ class IDataRepo[T: BaseModel](ABC):
         self.sql_repo = SqlRepository(hostname, username, password, db)
 
     def table_exist(self, table: str) -> bool:
-        """Checks if a table exist or not
-
-        Args:
-            table (str): name of the table
-
-        Returns:
-            bool: returns if the table is present or not
-        """
         return self.sql_repo.table_exist(table)
 
-    @abstractmethod
     def create_table(self) -> None:
-        """Creates a table"""
         self.sql_repo.create_table(self.create_table_statement)
 
-    @abstractmethod
     def delete(self, unique_id: str) -> None:
-        """Deletes row from the table
+        raise NotImplementedError
 
-        Args:
-            unique_id (str): identifier used to find and delete the row
-        """
-
-    @abstractmethod
     def get(self, unique_id: str) -> T:
-        """Gets the data from the table
-
-        Args:
-            unique_id (str): identifier used to find the data
-
-        Returns:
-            T: data from the table
-        """
+        raise NotImplementedError
 
     def insert(self, data: T) -> None:
-        """Inserts data into the table
-
-        Args:
-            data (T): data to be inserted
-        """
         shape = data.model_dump()
         columns = []
         values = []
@@ -89,11 +61,5 @@ class IDataRepo[T: BaseModel](ABC):
 
         self.sql_repo.insert(insert_statement)
 
-    @abstractmethod
     def update(self, unique_id: str, data: T) -> None:
-        """Updates the specified record in the table
-
-        Args:
-            unique_id (str): identifier used to find the data
-            data (T): data used to update the record
-        """
+        raise NotImplementedError

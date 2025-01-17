@@ -4,3 +4,4 @@ mysql-connector-python==9.0.0
 pydantic==2.10.5
 pydantic_core==2.27.2
 python-dotenv==1.0.1
+pylint==3.3.3

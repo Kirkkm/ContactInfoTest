@@ -1,8 +1,8 @@
 from src.SVC1.types.ContactInfo import ContactInfo
-from src.SVC1.interfaces.IDataRepo import IDataRepo
+from src.SVC1.repositories.DataRepoBase import DataRepoBase
 
 
-class ContactInfoRepo[ContactInfo](IDataRepo):
+class ContactInfoRepo[ContactInfo](DataRepoBase):
     """ContactInfo repository
 
     Args:
