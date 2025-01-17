@@ -6,7 +6,17 @@ from src.SVC1.repositories.SqlRepository import SqlRepository
 class IDataRepo[T](ABC):
     """Base class for data repositories"""
 
-    def __init__(self, table: str):
+    def __init__(self, table: str, create_table_statement: str):
+
+        self.create_table_statement = create_table_statement
+        self.db_connect()
+
+        # checks if the table already exist, if not we create it
+        if self.table_exist(table) is False:
+            self.create_table()
+
+    def db_connect(self) -> None:
+        """Sets up the connection to the database"""
 
         # config set up
         config = configparser.ConfigParser()
@@ -23,10 +33,6 @@ class IDataRepo[T](ABC):
         # Sql connection
         self.sql_repo = SqlRepository(hostname, username, password, db)
 
-        # checks if the table already exist, if not we create it
-        if self.table_exist(table) is False:
-            self.create_table(table)
-
     def table_exist(self, table: str) -> bool:
         """Checks if a table exist or not
 
@@ -38,13 +44,10 @@ class IDataRepo[T](ABC):
         """
         return self.sql_repo.table_exist(table)
 
-    def create_table(self, statement: str) -> None:
-        """Creates a table
-
-        Args:
-            statement (str): Statement to run to create a table in the db
-        """
-        self.sql_repo.create_table(statement)
+    @abstractmethod
+    def create_table(self) -> None:
+        """Creates a table"""
+        self.sql_repo.create_table(self.create_table_statement)
 
     @abstractmethod
     def delete(self, unique_id: str) -> None:

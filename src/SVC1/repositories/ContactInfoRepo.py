@@ -1,19 +1,18 @@
-from SVC1.types.ContactInfo import ContactInfo
-from SVC1.interfaces.IDataRepo import IDataRepo
-from mysql.connector.abstracts import MySQLCursorAbstract
+from src.SVC1.types.ContactInfo import ContactInfo
+from src.SVC1.interfaces.IDataRepo import IDataRepo
 
-# TODO: add an init statement to check if the table exist, if not create it
-class ContactInfoRepo(IDataRepo):
+
+class ContactInfoRepo[ContactInfo](IDataRepo):
+    """ContactInfo repository
+
+    Args:
+        IDataRepo (_type_): Abstract Base Class used for Contact Info
+    """
+
     def __init__(self):
-        
-        pass
 
-    def tableExist(self, table: str) -> bool:
-        tableCursor = self.cursor.execute('SHOW TABLES')
-        return table in tableCursor
-
-    def createTable():
-        '''
+        table = "ContactInfo"
+        create_table_statement = """
         create table ContactInfo
         (
             id int auto_increment
@@ -23,7 +22,12 @@ class ContactInfoRepo(IDataRepo):
             Email       TEXT     not null,
             Comments    LONGTEXT null
         );
-        '''
+        """
 
-    def insertContactInfo(contact: ContactInfo) -> str:
-        return f'INSERT into ContactInfo (`Name`, `DateOfBirth`, `PhoneNumber`, `Email`, `Comments` ) VALUES (\'{contact.name}\', \'{contact.dateOfBirth}\', \'{contact.phoneNumber}\', \'{contact.email}\', \'{contact.comments}\');'
+        super().__init__(table, create_table_statement)
+
+        self.db_connect()
+
+        # checks if the table already exist, if not we create it
+        if self.table_exist(table) is False:
+            self.create_table()
