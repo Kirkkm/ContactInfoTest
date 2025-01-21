@@ -6,7 +6,7 @@ from src.SVC1.repositories.ContactInfoRepo import ContactInfoRepo
 app = FastAPI()
 contact_info_repo = ContactInfoRepo()
 
-origins = ["http://localhost:3000/", "http://localhost"]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,5 +27,6 @@ def create_contact(contact: ContactInfo) -> ContactInfo:
     Returns:
         ContactInfo: The data being saved in a 200 response
     """
+    print(contact)
     contact_info_repo.insert(contact)
     return contact

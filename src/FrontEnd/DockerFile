@@ -1,6 +1,8 @@
 FROM ubuntu:22.04
 WORKDIR /FrontEnd
 COPY . /FrontEnd
+RUN sudo apt install nodejs
+RUN sudo apt install npm
 RUN npm run build
 EXPOSE 3000
 ENTRYPOINT [ "npm", "run", "start" ]

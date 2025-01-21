@@ -7,11 +7,11 @@ import { postContactInfo } from './services/OutboundContactInfoService'
 function App() {
 
   const [inputs, setInputs] = useState<ContactInfo>({
-    name: '',
-    dateOfBirth: undefined,
-    phoneNumber: '',
-    email: '',
-    comments: undefined
+    Name: '',
+    DateOfBirth: undefined,
+    PhoneNumber: '',
+    Email: '',
+    Comments: undefined
   });
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name;
@@ -26,8 +26,10 @@ function App() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    postContactInfo({...inputs, comments: textarea})
-    console.log(inputs, textarea)
+    console.log('data being sent');
+    console.table(inputs);
+    console.debug(textarea);
+    postContactInfo({...inputs, Comments: textarea})
   }
 
   return (
@@ -36,19 +38,19 @@ function App() {
         <h2>Contact Info</h2>
         <form onSubmit={handleSubmit}>
           <label>Name:
-            <input type='text' name='name' onChange={handleTextChange}/>
+            <input type='text' name='Name' onChange={handleTextChange}/>
           </label>
           <br/>
           <label>Date of Birth:
-            <input type='text' name='dateOfBirth' onChange={handleTextChange}/>
+            <input type='text' name='DateOfBirth' onChange={handleTextChange}/>
           </label>
           <label>Phone Number:
-            <input type='text' name='phoneNumber' onChange={handleTextChange}/>
+            <input type='text' name='PhoneNumber' onChange={handleTextChange}/>
           </label>
           <label>Email:
-            <input type='text' name='email' onChange={handleTextChange}/>
+            <input type='text' name='Email' onChange={handleTextChange}/>
           </label>
-          <textarea name='comments' value = {textarea} onChange={handleTextAreaChange} />
+          <textarea name='Comments' value = {textarea} onChange={handleTextAreaChange} />
 
           <input type='submit'/>
           

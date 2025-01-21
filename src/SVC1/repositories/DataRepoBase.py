@@ -53,9 +53,10 @@ class DataRepoBase[T: BaseModel](IRepository):
             columns.append(key)
             values.append(value)
 
-        insert_statement = (
-            f"INSERT INTO ContactInfo {tuple(columns)} VALUES {tuple(values)}"
-        )
+        # cleaning up and creating insert statements dynamically
+        insert_statement = f"INSERT INTO ContactInfo {tuple(columns)} VALUES"
+        insert_statement = insert_statement.replace("'", "")
+        insert_statement = f"{insert_statement} {tuple(values)}"
 
         self.sql_repo.insert(insert_statement)
 
