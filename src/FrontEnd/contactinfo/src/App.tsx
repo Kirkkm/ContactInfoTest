@@ -36,7 +36,7 @@ function App() {
         <h2>Contact Info</h2>
         <form onSubmit={handleSubmit}>
           <label>Name:
-            <input type='text' name='Name' onChange={handleTextChange}/>
+            <input required type='text' name='Name' onChange={handleTextChange}/>
           </label>
           <br/>
           <label>Date of Birth:
@@ -44,11 +44,11 @@ function App() {
           </label>
           <br/>
           <label>Phone Number:
-            <input type='text' name='PhoneNumber' onChange={handleTextChange}/>
+            <input required type='text' name='PhoneNumber' onChange={handleTextChange}/>
           </label>
           <br/>
           <label>Email:
-            <input type='text' name='Email' onChange={handleTextChange}/>
+            <input required type='text' name='Email' onChange={handleTextChange}/>
           </label>
           <br/>
           <label> Comments: 
