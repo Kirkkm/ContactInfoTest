@@ -26,10 +26,8 @@ function App() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('data being sent');
-    console.table(inputs);
-    console.debug(textarea);
     postContactInfo({...inputs, Comments: textarea})
+    alert('Thank you for submitting your contact info!')
   }
 
   return (
@@ -42,17 +40,22 @@ function App() {
           </label>
           <br/>
           <label>Date of Birth:
-            <input type='text' name='DateOfBirth' onChange={handleTextChange}/>
+            <input type='date' name='DateOfBirth' onChange={handleTextChange}/>
           </label>
+          <br/>
           <label>Phone Number:
             <input type='text' name='PhoneNumber' onChange={handleTextChange}/>
           </label>
+          <br/>
           <label>Email:
             <input type='text' name='Email' onChange={handleTextChange}/>
           </label>
-          <textarea name='Comments' value = {textarea} onChange={handleTextAreaChange} />
-
-          <input type='submit'/>
+          <br/>
+          <label> Comments: 
+            <textarea name='Comments' value = {textarea} onChange={handleTextAreaChange} />
+          </label>
+          
+          <input type='submit' value="Submit"/>
           
         </form>
       </header>
