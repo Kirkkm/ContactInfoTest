@@ -10,17 +10,6 @@ class IRepository[T: BaseModel](ABC):
         """Sets up the connection to the database"""
 
     @abstractmethod
-    def table_exist(self, table: str) -> bool:
-        """Checks if a table exist or not
-
-        Args:
-            table (str): name of the table
-
-        Returns:
-            bool: returns if the table is present or not
-        """
-
-    @abstractmethod
     def create_table(self) -> None:
         """Creates a table"""
 

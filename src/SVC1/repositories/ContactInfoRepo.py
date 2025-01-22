@@ -12,6 +12,4 @@ class ContactInfoRepo[ContactInfo](DataRepoBase):
     def __init__(self):
 
         table = "ContactInfo"
-        create_table_statement = "create table ContactInfo ( id INT AUTO_INCREMENT PRIMARY KEY, Name TEXT not null, DateOfBirth DATE null, PhoneNumber TEXT not null, Email TEXT not null, Comments LONGTEXT null)"
-
-        super().__init__(table, create_table_statement)
+        super().__init__(table)

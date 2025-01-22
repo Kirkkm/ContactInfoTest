@@ -1,21 +1,17 @@
 import configparser
 from pydantic import BaseModel
 from src.SVC1.interfaces.IRepository import IRepository
-from src.SVC1.repositories.SqlRepository import SqlRepository
+from sqlmodel import create_engine, SQLModel, Session
 
 
 class DataRepoBase[T: BaseModel](IRepository):
     """Base class for data repositories"""
 
-    def __init__(self, table: str, create_table_statement: str):
+    def __init__(self, table: str):
 
-        self.create_table_statement = create_table_statement
+        # self.create_table_statement = create_table_statement
         self.table = table
         self.db_connect()
-
-        # checks if the table already exist, if not we create it
-        if self.table_exist(table) is False:
-            self.create_table()
 
     def db_connect(self) -> None:
         """Sets up the connection to the database"""
@@ -31,13 +27,11 @@ class DataRepoBase[T: BaseModel](IRepository):
         db = config.get("Database", "db")
 
         # Sql connection
-        self.sql_repo = SqlRepository(host, port, username, password, db)
-
-    def table_exist(self, table: str) -> bool:
-        return self.sql_repo.table_exist(table)
+        db_url = f"mysql://{username}:{password}@{host}:{port}/{db}"
+        self.engine = create_engine(db_url, echo=True)
 
     def create_table(self) -> None:
-        self.sql_repo.create_table(self.create_table_statement)
+        SQLModel.metadata.create_all(self.engine)
 
     def delete(self, unique_id: str) -> None:
         raise NotImplementedError
@@ -46,19 +40,8 @@ class DataRepoBase[T: BaseModel](IRepository):
         raise NotImplementedError
 
     def insert(self, data: T) -> None:
-        shape = data.model_dump()
-        columns = []
-        values = []
-        for key, value in shape.items():
-            columns.append(key)
-            values.append(value)
-
-        # cleaning up and creating insert statements dynamically
-        insert_statement = f"INSERT INTO ContactInfo {tuple(columns)} VALUES"
-        insert_statement = insert_statement.replace("'", "")
-        insert_statement = f"{insert_statement} {tuple(values)}"
-
-        self.sql_repo.insert(insert_statement)
+        Session(self.engine).add(data)
+        Session(self.engine).commit()
 
     def update(self, unique_id: str, data: T) -> None:
         raise NotImplementedError

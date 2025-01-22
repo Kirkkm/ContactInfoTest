@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 from src.SVC1.types.ContactInfo import ContactInfo
 from src.SVC1.repositories.ContactInfoRepo import ContactInfoRepo
@@ -18,7 +18,8 @@ app.add_middleware(
 )
 
 
-@app.post("/ContactUs")
+# TODO: add validation
+@app.post("/ContactUs", response_model=ContactInfo, status_code=status.HTTP_201_CREATED)
 def create_contact(contact: ContactInfo) -> ContactInfo:
     """Endpoint to create a Contact's Information
 
