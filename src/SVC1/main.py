@@ -1,10 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.SVC1.models.ContactInfo import ContactInfo
-from src.SVC1.repositories.ContactInfoRepo import ContactInfoRepo
 
 app = FastAPI()
-contact_info_repo = ContactInfoRepo()
 
 # TODO: update CORS logic to connect FE with BE
 origins = ["*"]
@@ -16,17 +13,3 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.post("/ContactUs")
-def create_contact(contact: ContactInfo) -> ContactInfo:
-    """Endpoint to create a Contact's Information
-
-    Args:
-        contact (ContactInfo): Data to be saved
-
-    Returns:
-        ContactInfo: The data being saved in a 200 response
-    """
-    contact_info_repo.insert(contact)
-    return contact
