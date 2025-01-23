@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.SVC1.types.ContactInfo import ContactInfo
+from src.SVC1.models.ContactInfo import ContactInfo
 from src.SVC1.repositories.ContactInfoRepo import ContactInfoRepo
 
 app = FastAPI()

@@ -1,4 +1,4 @@
-from src.SVC1.types.ContactInfo import ContactInfo
+from src.SVC1.models.ContactInfo import ContactInfo
 from src.SVC1.repositories.DataRepoBase import DataRepoBase
 
 
