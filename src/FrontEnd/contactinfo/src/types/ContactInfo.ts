@@ -1,7 +1,7 @@
 export interface ContactInfo {
-    Name: string,
+    Name?: string,
     DateOfBirth?: string,
-    PhoneNumber: string,
-    Email: string,
+    PhoneNumber?: string,
+    Email?: string,
     Comments?: string
 }

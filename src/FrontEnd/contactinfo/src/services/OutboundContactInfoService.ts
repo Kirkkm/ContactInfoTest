@@ -15,7 +15,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
             httpClient.request(axiosConfig);
         }
         catch(error: unknown) {
-            console.log('and error happend')
+            console.log('an error happened')
             console.error(error)
             throw error
         }       
